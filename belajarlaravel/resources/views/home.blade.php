@@ -25,7 +25,8 @@
         <div class="bg-indigo-700 rounded-3xl p-8 md:p-12 text-white mb-8 shadow-lg">
             <h1 class="text-4xl font-extrabold mb-4">Selamat Datang Kembali! 🚀</h1>
             <p class="text-indigo-100 text-lg max-w-2xl">
-                Ini adalah halaman utama (Home) aplikasi Anda. Dari sini, Anda bisa mengelola semua data dan melihat ringkasan aktivitas terbaru.
+                Ini adalah halaman utama (Home) aplikasi Anda. Dari sini, Anda bisa mengelola semua data dan melihat ringkasan 
+                aktivitas terbaru.
             </p>
         </div>
 

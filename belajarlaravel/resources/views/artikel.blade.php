@@ -1,62 +1,121 @@
 @extends('main')
 
 @section('container')
-<main class="max-w-7xl mx-auto px-10 py-12">
-    <div class="flex justify-between items-center mb-8">
-        <h1 class="text-3xl font-bold text-gray-800">Daftar Artikel</h1>
-        <a href="/artikel/create" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition shadow-sm">
-            + Tambah Artikel
-        </a>
-    </div>
+<div class="relative overflow-hidden bg-slate-900 min-h-[calc(100vh-80px)] text-white">
+    <div class="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),
+    linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:3rem_3rem] opacity-20"></div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        @foreach ($semuaArtikel as $item)
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition duration-300">
-            <!-- Gambar Hutan Otomatis -->
-            <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=800&q=80" 
-                 class="w-full h-56 object-cover" alt="Cover">
-            
-            <div class="p-6">
-                <!-- Judul Artikel -->
-                <h2 class="text-xl font-bold mb-2 text-gray-800">{{ $item->judul }}</h2>
+    <main class="max-w-7xl mx-auto px-6 py-6 relative z-10 w-full">
+        
+        <div class="flex flex-row items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-800">
+            <div>
+                <h1 class="text-2xl font-black tracking-tight uppercase">
+                    Kumpulan <span class="bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text 
+                    text-transparent">Artikel</span>
+                </h1>
+            </div>
+            <a href="/artikel/create" class="px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 
+            text-white text-xs font-bold rounded-xl shadow-lg shadow-blue-500/20 transition-all">
+                + Create Article
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            @foreach ($semuaArtikel as $item)
+            <div class="group bg-slate-800/40 backdrop-blur-md border border-slate-700/50 
+            rounded-2xl overflow-hidden transition-all duration-300 hover:border-blue-500/50">
                 
-                <!-- Cuplikan Isi -->
-                <p class="text-gray-500 text-sm mb-6 leading-relaxed">
-                    {{ Str::limit($item->isi, 100) }}
-                </p>
-                
-                <div class="flex justify-between items-center border-t pt-4">
-                    <!-- Link Baca -->
-                    <a href="/artikel/{{ $item->id }}" class="text-blue-600 text-sm font-bold hover:underline">
-                        Baca Selengkapnya →
-                    </a>
+                <div class="relative h-40 w-full overflow-hidden">
+                    @php
+                        $gambarFinal = $item->gambar;
+
+                        // Cek apakah gambar adalah file upload atau URL
+                        if ($gambarFinal && !str_starts_with($gambarFinal, 'http')) {
+                            // File upload — ambil dari folder uploads
+                            $gambarFinal = asset('uploads/' . $gambarFinal);
+                        } elseif (!$gambarFinal || str_contains($gambarFinal, 'pin.it')) {
+                            // Kosong atau link tidak valid — pakai gambar default
+                            $gambarFinal = 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=800&q=80';
+                        }
+                    @endphp
+
+                    <img 
+                        src="{{ $gambarFinal }}" 
+                        alt="{{ $item->judul }}" 
+                        class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                    >
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/95 via-slate-900/40 
+                    to-transparent"></div>
+                    <span class="absolute bottom-2 left-3 px-2 py-0.5 bg-blue-500/80 text-[9px] 
+                    font-bold uppercase rounded">IDE KREATIF</span>
+                </div>
+
+                <div class="p-3.5 flex flex-col justify-between h-28">
+                    <div class="space-y-1.5">
+                        <h3 class="text-sm font-bold text-white line-clamp-1 group-hover:text-blue-400 
+                        transition-colors">
+                            {{ $item->judul }}
+                        </h3>
+                        <p class="text-slate-400 text-[10px] line-clamp-2 leading-relaxed">
+                            {{ Str::limit(strip_tags($item->isi ?? 'Lihat rincian lengkap.'), 80) }}
+                        </p>
+                    </div>
                     
-                    <!-- Area Tombol Aksi (Edit & Hapus) -->
-                    <div class="flex items-center gap-3">
-                        <!-- Icon Edit -->
-                        <a href="/artikel/{{ $item->id }}/edit" class="text-gray-400 hover:text-blue-500 transition" title="Edit">
-                            <i class="bi bi-pencil-square text-lg"></i>
-                        </a>
-
-                        <!-- Icon Hapus -->
-                        <form action="/artikel/{{ $item->id }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus artikel ini?')">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="text-gray-400 hover:text-red-500 transition" title="Hapus">
-                                <i class="bi bi-trash text-lg"></i>
-                            </button>
-                        </form>
+                    <div class="pt-3 flex items-center justify-between border-t border-slate-700/30">
+                        <a href="/artikel/{{ $item->id }}" class="text-blue-400 text-[10px] font-bold flex 
+                            items-center gap-1">DETAIL →</a>
+                        <div class="flex items-center gap-1.5">
+                            <a href="/artikel/{{ $item->id }}/edit" class="px-2 py-0.5 bg-slate-700/50 
+                                hover:bg-amber-500/20 hover:text-amber-400 rounded text-[9px] 
+                                transition-all">EDIT</a>
+                            
+                            <form action="/artikel/{{ $item->id }}" method="POST" class="inline form-delete">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button" class="btn-delete px-2 py-0.5 bg-slate-700/50 
+                                hover:bg-red-500/20 hover:text-red-400 rounded text-[9px] 
+                                transition-all">DEL</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        @endforeach
-    </div>
 
-    @if($semuaArtikel->isEmpty())
-        <div class="text-center py-20 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
-            <p class="text-gray-400 italic">Belum ada artikel. Ayo tulis artikel pertamamu!</p>
+            </div>
+            @endforeach
         </div>
-    @endif
-</main>
+    </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const deleteButtons = document.querySelectorAll('.btn-delete');
+        
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function (e) {
+                const form = this.closest('.form-delete');
+                
+                Swal.fire({
+                    title: 'Hapus Artikel?',
+                    text: "Data yang dihapus tidak dapat dikembalikan!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#ef4444', 
+                    cancelButtonColor: '#475569',  
+                    confirmButtonText: 'Ya, Hapus!',
+                    cancelButtonText: 'Batal',
+                    background: '#1e293b',         
+                    color: '#ffffff',              
+                    customClass: {
+                        popup: 'border border-slate-700 rounded-2xl'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    });
+</script>
 @endsection

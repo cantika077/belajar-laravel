@@ -22,9 +22,12 @@
     <div class="max-w-6xl mx-auto px-6 mt-8">
         <div class="flex flex-wrap gap-4 justify-center">
             <button class="px-4 py-2 bg-indigo-600 text-white rounded-full text-sm font-semibold shadow-md">Semua</button>
-            <button class="px-4 py-2 bg-white text-gray-600 hover:bg-gray-100 rounded-full text-sm font-semibold border border-gray-200 transition">Teknologi</button>
-            <button class="px-4 py-2 bg-white text-gray-600 hover:bg-gray-100 rounded-full text-sm font-semibold border border-gray-200 transition">Tutorial</button>
-            <button class="px-4 py-2 bg-white text-gray-600 hover:bg-gray-100 rounded-full text-sm font-semibold border border-gray-200 transition">Berita</button>
+            <button class="px-4 py-2 bg-white text-gray-600 hover:bg-gray-100 rounded-full text-sm font-semibold border 
+            border-gray-200 transition">Teknologi</button>
+            <button class="px-4 py-2 bg-white text-gray-600 hover:bg-gray-100 rounded-full text-sm font-semibold border 
+            border-gray-200 transition">Tutorial</button>
+            <button class="px-4 py-2 bg-white text-gray-600 hover:bg-gray-100 rounded-full text-sm font-semibold border 
+            border-gray-200 transition">Berita</button>
         </div>
     </div>
 
@@ -34,7 +37,8 @@
             
             <!-- Loop Postingan (Contoh Statis) -->
             @for ($i = 1; $i <= 6; $i++)
-            <article class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition-shadow duration-300">
+            <article class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl 
+            transition-shadow duration-300">
                 <!-- Gambar Dummy -->
                 <div class="h-48 bg-gray-200 flex items-center justify-center text-gray-400">
                     <span class="text-4xl">🖼️</span>
@@ -42,7 +46,8 @@
                 
                 <div class="p-6">
                     <div class="flex items-center gap-2 mb-3">
-                        <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-1 bg-indigo-50 text-indigo-600 rounded">Tutorial</span>
+                        <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-1 bg-indigo-50 
+                        text-indigo-600 rounded">Tutorial</span>
                         <span class="text-xs text-gray-400 font-medium">4 Mei 2026</span>
                     </div>
                     
@@ -51,7 +56,8 @@
                     </h2>
                     
                     <p class="text-gray-500 text-sm line-clamp-3 mb-6">
-                        Laravel menyediakan ekosistem yang luar biasa untuk developer. Dalam artikel ini kita akan membahas roadmap terbaik...
+                        Laravel menyediakan ekosistem yang luar biasa untuk developer. Dalam artikel ini kita akan membahas roadmap 
+                        terbaik...
                     </p>
                     
                     <div class="flex items-center justify-between pt-4 border-t border-gray-50">
@@ -69,10 +75,13 @@
 
         <!-- Pagination Sederhana -->
         <div class="mt-16 flex justify-center gap-2">
-            <button class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-200 text-gray-400 cursor-not-allowed">«</button>
+            <button class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-200 text-gray-400 
+            cursor-not-allowed">«</button>
             <button class="w-10 h-10 flex items-center justify-center rounded-lg bg-indigo-600 text-white font-bold">1</button>
-            <button class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-200 hover:bg-gray-50 font-bold transition">2</button>
-            <button class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-200 hover:bg-gray-50 transition">»</button>
+            <button class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-200 hover:bg-gray-50 font-bold 
+            transition">2</button>
+            <button class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-200 hover:bg-gray-50 
+            transition">»</button>
         </div>
     </main>
 

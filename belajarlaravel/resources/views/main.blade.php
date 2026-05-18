@@ -9,7 +9,7 @@
     <style>body { font-family: 'Plus Jakarta Sans', sans-serif; }</style>
 </head>
 <body class="bg-white text-gray-900">
-
+ 
     <nav class="flex justify-between items-center px-10 py-6 max-w-7xl mx-auto border-b border-gray-50">
         <div class="text-xl font-extrabold tracking-tighter">WEB_CAN</div>
         <div class="flex items-center gap-8 font-medium text-gray-600 text-sm">
@@ -19,7 +19,7 @@
             <a href="/profil" class="hover:text-black transition">Profil</a>
             <a href="#" class="bg-[#1D4ED8] text-white px-5 py-2 rounded-md font-semibold hover:bg-blue-700 transition">Update</a>
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    
+
     <style>body { font-family: 'Plus Jakarta Sans', sans-serif; }</style>
 </head>
         </div>

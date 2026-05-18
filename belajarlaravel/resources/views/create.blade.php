@@ -1,35 +1,104 @@
 @extends('main')
 
 @section('container')
-<main class="max-w-4xl mx-auto px-10 py-12">
-    <h1 class="text-3xl font-bold mb-8 text-gray-800">Tambah Artikel Baru</h1>
+<div class="relative overflow-hidden bg-slate-900 min-h-[calc(100vh-80px)] text-white flex justify-center items-center py-8">
+    
+    <div class="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,
+    transparent_1px)] bg-[size:3rem_3rem] opacity-20"></div>
+    <div class="absolute top-1/4 left-1/4 w-[300px] h-[300px] bg-indigo-500/10 rounded-full filter blur-[90px] -z-10 animate-pulse"></div>
 
-    <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
-        <!-- Form ini akan mengirim data ke fungsi 'store' di controller -->
-        <form action="/artikel" method="POST">
-            @csrf <!-- Keamanan Laravel, wajib ada! -->
+    <div class="w-full max-w-2xl mx-auto px-6 relative z-10">
+        
+        <div class="flex flex-row items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-800/60">
+            <div>
+                <h1 class="text-3xl font-black tracking-tight uppercase">
+                    Buat <span class="bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">Artikel</span>
+                </h1>
+                <p class="text-slate-400 text-xs mt-1">Tuangkan ide kreatif Anda di sini.</p>
+            </div>
+            <a href="/artikel" class="text-xs font-bold text-slate-400 hover:text-white transition-colors flex items-center 
+            gap-1 bg-slate-800/80 border border-slate-700/60 px-3 py-1.5 rounded-xl hover:bg-slate-700/80">
+                ← Kembali
+            </a>
+        </div>
 
-            <div class="mb-6">
-                <label for="judul" class="block text-gray-700 font-bold mb-2">Judul Artikel</label>
-                <input type="text" name="judul" id="judul" 
-                    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
-                    placeholder="Masukkan judul menarik..." required>
+        <form action="/artikel" method="POST" enctype="multipart/form-data" class="bg-slate-800/40 backdrop-blur-md border border-slate-700/60 p-6 
+        rounded-2xl space-y-5 shadow-xl">
+            @csrf
+
+            {{-- Error Validasi Backend --}}
+            @if ($errors->any())
+                <div class="bg-red-500/10 border border-red-500/30 rounded-xl px-4 py-3">
+                    <ul class="text-red-400 text-xs space-y-1">
+                        @foreach ($errors->all() as $error)
+                            <li>⚠ {{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            
+            {{-- Judul --}}
+            <div class="space-y-1.5">
+                <label for="judul" class="text-xs font-bold uppercase tracking-wider text-slate-300">Judul Artikel</label>
+                <input 
+                    type="text" 
+                    name="judul" 
+                    id="judul"
+                    value="{{ old('judul') }}"
+                    placeholder="Masukkan judul menarik (min. 5 karakter)..." 
+                    minlength="5"
+                    maxlength="255"
+                    required
+                    class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-4 py-2.5 text-sm text-white 
+                    placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
+                >
             </div>
 
-            <div class="mb-6">
-                <label for="isi" class="block text-gray-700 font-bold mb-2">Isi Artikel</label>
-                <textarea name="isi" id="isi" rows="10" 
-                    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
-                    placeholder="Tuliskan isi artikelmu di sini..." required></textarea>
+            {{-- Upload Gambar --}}
+            <div class="space-y-1.5">
+                <label for="gambar" class="text-xs font-bold uppercase tracking-wider text-slate-300">Upload Gambar Sampul</label>
+                <input 
+                    type="file" 
+                    name="gambar" 
+                    id="gambar"
+                    accept="image/jpg,image/jpeg,image/png,image/webp"
+                    required
+                    class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-4 py-2.5 text-sm text-slate-300
+                    file:mr-4 file:py-1.5 file:px-4 file:rounded-lg file:border-0 file:bg-blue-600 file:text-white 
+                    file:text-xs file:font-bold file:cursor-pointer hover:file:bg-blue-700 transition-all"
+                >
+                <p class="text-slate-500 text-xs">Format: JPG, PNG, WEBP. Maks: 2MB</p>
             </div>
 
-            <div class="flex justify-end gap-4">
-                <a href="/artikel" class="px-6 py-2 text-gray-600 hover:underline">Batal</a>
-                <button type="submit" class="bg-blue-600 text-white px-8 py-2 rounded-lg font-bold hover:bg-blue-700 transition">
-                    Simpan Artikel
+            {{-- Isi --}}
+            <div class="space-y-1.5">
+                <label for="isi" class="text-xs font-bold uppercase tracking-wider text-slate-300">Isi Artikel</label>
+                <textarea 
+                    name="isi" 
+                    id="isi" 
+                    rows="4"
+                    minlength="10"
+                    required
+                    placeholder="Tuliskan isi artikelmu di sini (min. 10 karakter)..." 
+                    class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-white 
+                    placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all 
+                    resize-none leading-relaxed"
+                >{{ old('isi') }}</textarea>
+            </div>
+
+            <div class="pt-2">
+                <button 
+                    type="submit" 
+                    class="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 
+                    hover:from-blue-700 hover:to-indigo-700 text-white text-xs font-bold uppercase tracking-wider rounded-xl 
+                    shadow-lg shadow-blue-500/20 transition-all active:scale-[0.99]"
+                >
+                    🚀 Publish Artikel
                 </button>
             </div>
+
         </form>
+
     </div>
-</main>
+</div>
 @endsection

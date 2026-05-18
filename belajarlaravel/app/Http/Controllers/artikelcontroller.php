@@ -2,39 +2,95 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Artikel; // Pastikan Model Artikel sudah kamu buat
+use App\Models\Artikel;
 use Illuminate\Http\Request;
 
-class artikelcontroller extends Controller
+class ArtikelController extends Controller
 {
-    // Menampilkan daftar artikel
     public function index()
     {
         $data = Artikel::all();
         return view('artikel', ['semuaArtikel' => $data]);
     }
 
-    // Menampilkan form tambah (INI YANG BIKIN PUTIH KALAU KOSONG)
     public function create()
     {
         return view('create');
     }
 
-    // Menyimpan data ke database
     public function store(Request $request)
     {
         $request->validate([
-            'judul' => 'required',
-            'isi' => 'required',
+            'judul'  => 'required|min:5|max:255',
+            'gambar' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'isi'    => 'required|min:10',
         ]);
 
+        // Upload file
+        $namaFile = time() . '_' . $request->file('gambar')->getClientOriginalName();
+        $request->file('gambar')->move(public_path('uploads'), $namaFile);
+
         Artikel::create([
-            'judul' => $request->judul,
-            'isi' => $request->isi,
+            'judul'  => $request->judul,
+            'gambar' => $namaFile,
+            'isi'    => $request->isi,
         ]);
 
         return redirect('/artikel')->with('success', 'Artikel Berhasil Ditambahkan!');
     }
 
-    // Fungsi lainnya (show, edit, update, destroy) bisa kamu isi nanti
+    public function show($id)
+    {
+        $artikel = Artikel::findOrFail($id);
+        return view('show', compact('artikel'));
+    }
+
+    public function edit($id)
+    {
+        $artikel = Artikel::findOrFail($id);
+        return view('edit', compact('artikel'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'judul'  => 'required|min:5|max:255',
+            'gambar' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'isi'    => 'required|min:10',
+        ]);
+
+        $artikel = Artikel::findOrFail($id);
+        $namaFile = $artikel->gambar; // Pakai gambar lama dulu
+
+        // Kalau ada upload gambar baru
+        if ($request->hasFile('gambar')) {
+            // Hapus gambar lama
+            if (file_exists(public_path('uploads/' . $artikel->gambar))) {
+                unlink(public_path('uploads/' . $artikel->gambar));
+            }
+            $namaFile = time() . '_' . $request->file('gambar')->getClientOriginalName();
+            $request->file('gambar')->move(public_path('uploads'), $namaFile);
+        }
+
+        $artikel->update([
+            'judul'  => $request->judul,
+            'gambar' => $namaFile,
+            'isi'    => $request->isi,
+        ]);
+
+        return redirect('/artikel')->with('success', 'Artikel Berhasil Diperbarui!');
+    }
+
+    public function destroy($id)
+    {
+        $artikel = Artikel::findOrFail($id);
+
+        // Hapus file gambar
+        if (file_exists(public_path('uploads/' . $artikel->gambar))) {
+            unlink(public_path('uploads/' . $artikel->gambar));
+        }
+
+        $artikel->delete();
+        return redirect('/artikel')->with('success', 'Artikel Berhasil Dihapus!');
+    }
 }
