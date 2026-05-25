@@ -9,6 +9,11 @@ class ArtikelController extends Controller
 {
     public function index()
     {
+        return view('welcome');
+    }
+
+    public function artikel()
+    {
         $data = Artikel::all();
         return view('artikel', ['semuaArtikel' => $data]);
     }
@@ -26,7 +31,6 @@ class ArtikelController extends Controller
             'isi'    => 'required|min:10',
         ]);
 
-        // Upload file
         $namaFile = time() . '_' . $request->file('gambar')->getClientOriginalName();
         $request->file('gambar')->move(public_path('uploads'), $namaFile);
 
@@ -60,11 +64,9 @@ class ArtikelController extends Controller
         ]);
 
         $artikel = Artikel::findOrFail($id);
-        $namaFile = $artikel->gambar; // Pakai gambar lama dulu
+        $namaFile = $artikel->gambar;
 
-        // Kalau ada upload gambar baru
         if ($request->hasFile('gambar')) {
-            // Hapus gambar lama
             if (file_exists(public_path('uploads/' . $artikel->gambar))) {
                 unlink(public_path('uploads/' . $artikel->gambar));
             }
@@ -85,7 +87,6 @@ class ArtikelController extends Controller
     {
         $artikel = Artikel::findOrFail($id);
 
-        // Hapus file gambar
         if (file_exists(public_path('uploads/' . $artikel->gambar))) {
             unlink(public_path('uploads/' . $artikel->gambar));
         }

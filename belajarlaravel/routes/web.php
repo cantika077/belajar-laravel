@@ -1,24 +1,32 @@
 <?php
 
+use App\Http\Controllers\ArtikelController;
 use Illuminate\Support\Facades\Route;
-// PASTIKAN BARIS INI ADA DI ATAS (Baris 4 di screenshot kamu)
-use App\Http\Controllers\artikelcontroller; 
 
-// 1. Halaman Utama
-Route::get('/', function () {
-    return view('welcome');
+// --- HOME (bebas akses) ---
+Route::get('/', [ArtikelController::class, 'index'])->name('home');
+Route::get('/home', [ArtikelController::class, 'index']);
+Route::get('/dashboard', [ArtikelController::class, 'index'])->name('dashboard');
+
+// --- ARTIKEL ---
+Route::get('/artikel', [ArtikelController::class, 'artikel'])->name('artikel');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/artikel/create', [ArtikelController::class, 'create'])->name('artikel.create');
+    Route::post('/artikel', [ArtikelController::class, 'store'])->name('artikel.store');
+    Route::get('/artikel/{id}/edit', [ArtikelController::class, 'edit'])->name('artikel.edit');
+    Route::put('/artikel/{id}', [ArtikelController::class, 'update'])->name('artikel.update');
+    Route::delete('/artikel/{id}', [ArtikelController::class, 'destroy'])->name('artikel.destroy');
 });
 
-// 2. BAGIAN INI YANG PENTING (MENGGANTIKAN ROUTE ARTIKEL LAMA)
-// Baris inilah yang membuat "use" di atas tadi jadi tidak abu-abu lagi
-Route::resource('artikel', artikelcontroller::class);
+Route::get('/artikel/{id}', [ArtikelController::class, 'show'])->name('artikel.show');
 
-// 3. Halaman Kontak
-Route::get('/kontak', function () {
-    return view('contact');
-});
+// --- PROFIL ---
+Route::get('/profil', function () { return view('profile'); })->name('profil.indonesia');
+Route::get('/profile', function () { return view('profile'); });
 
-// 4. Halaman Profil
-Route::get('/profil', function () {
-    return view('profile'); 
-});
+// --- KONTAK ---
+Route::get('/kontak', function () { return view('contact'); })->name('kontak');
+Route::get('/contact', function () { return view('contact'); });
+
+require __DIR__.'/auth.php';

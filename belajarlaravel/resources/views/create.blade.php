@@ -1,14 +1,11 @@
 @extends('main')
 
 @section('container')
-<div class="relative overflow-hidden bg-slate-900 min-h-[calc(100vh-80px)] text-white flex justify-center items-center py-8">
-    
+<div class="relative overflow-hidden bg-slate-900 min-h-[calc(100vh-80px)] text-white flex justify-center items-center py-8">    
     <div class="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,
     transparent_1px)] bg-[size:3rem_3rem] opacity-20"></div>
     <div class="absolute top-1/4 left-1/4 w-[300px] h-[300px] bg-indigo-500/10 rounded-full filter blur-[90px] -z-10 animate-pulse"></div>
-
-    <div class="w-full max-w-2xl mx-auto px-6 relative z-10">
-        
+    <div class="w-full max-w-2xl mx-auto px-6 relative z-10">   
         <div class="flex flex-row items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-800/60">
             <div>
                 <h1 class="text-3xl font-black tracking-tight uppercase">
@@ -21,12 +18,10 @@
                 ← Kembali
             </a>
         </div>
-
-        <form action="/artikel" method="POST" enctype="multipart/form-data" class="bg-slate-800/40 backdrop-blur-md border border-slate-700/60 p-6 
+        <form action="/artikel" method="POST" enctype="multipart/form-data" class="bg-slate-800/40 backdrop-blur-md border 
+        border-slate-700/60 p-6 
         rounded-2xl space-y-5 shadow-xl">
             @csrf
-
-            {{-- Error Validasi Backend --}}
             @if ($errors->any())
                 <div class="bg-red-500/10 border border-red-500/30 rounded-xl px-4 py-3">
                     <ul class="text-red-400 text-xs space-y-1">
@@ -35,9 +30,7 @@
                         @endforeach
                     </ul>
                 </div>
-            @endif
-            
-            {{-- Judul --}}
+            @endif        
             <div class="space-y-1.5">
                 <label for="judul" class="text-xs font-bold uppercase tracking-wider text-slate-300">Judul Artikel</label>
                 <input 
@@ -53,8 +46,6 @@
                     placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
                 >
             </div>
-
-            {{-- Upload Gambar --}}
             <div class="space-y-1.5">
                 <label for="gambar" class="text-xs font-bold uppercase tracking-wider text-slate-300">Upload Gambar Sampul</label>
                 <input 
@@ -69,8 +60,6 @@
                 >
                 <p class="text-slate-500 text-xs">Format: JPG, PNG, WEBP. Maks: 2MB</p>
             </div>
-
-            {{-- Isi --}}
             <div class="space-y-1.5">
                 <label for="isi" class="text-xs font-bold uppercase tracking-wider text-slate-300">Isi Artikel</label>
                 <textarea 

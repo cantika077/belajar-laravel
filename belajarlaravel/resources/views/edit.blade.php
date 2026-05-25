@@ -22,7 +22,8 @@
             </a>
         </div>
 
-        <form action="/artikel/{{ $artikel->id }}" method="POST" enctype="multipart/form-data" class="bg-slate-800/40 backdrop-blur-md border border-slate-700/60 p-6 
+        <form action="/artikel/{{ $artikel->id }}" method="POST" enctype="multipart/form-data" class="bg-slate-800/40 
+            backdrop-blur-md border border-slate-700/60 p-6 
         rounded-2xl space-y-5 shadow-xl">
             @csrf
             @method('PUT')
